@@ -9,8 +9,13 @@ usage(){
 # check for parameter (bundle id)
 [[ $# -ne 1 ]] && usage
 
-source "config/config.ini"
 OOZIE_BUNDLE_ID=$1
+
+if [ ! -f config/config.ini ]; then
+	echo "config.ini not found!"
+	exit 2
+fi
+source "config/config.ini"
 
 # print currently checked bundle name
 OOZIE_BUNDLE_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_BUNDLE_ID} | grep "Job Name" | awk '{print $4}')

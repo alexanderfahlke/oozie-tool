@@ -9,8 +9,13 @@ usage(){
 # check for parameter (coordiator id)
 [[ $# -ne 1 ]] && usage
 
-source "config/config.ini"
 OOZIE_COORDINATOR_ID=$1
+
+if [ ! -f config/config.ini ]; then
+	echo "config.ini not found!"
+	exit 2
+fi
+source "config/config.ini"
 
 # get all coordinator actions from the given coordinator
 OOZIE_FAILED_ACTIONS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep -vP "SUCCEEDED|WAITING|RUNNING|READY|--+" | cut -f1 -d " " | grep -oP "[0-9]+$" | sort -nu | sed 's/$/,/' | tr -d '\n' | sed 's/,$//')

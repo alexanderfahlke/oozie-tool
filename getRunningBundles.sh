@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [ ! -f config/config.ini ]; then
+	echo "config.ini not found!"
+	exit 2
+fi
 source "config/config.ini"
 
 # get all running bundles
