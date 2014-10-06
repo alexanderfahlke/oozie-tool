@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#set -euo pipefail
-#IFS=$'\n\t'
-
 # usage message
 usage(){
 	echo "Usage: $0 <oozie bundle id>"

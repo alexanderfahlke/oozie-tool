@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-IFS=$'\n\t'
-
 source "config/config.ini"
 
 # get all running bundles

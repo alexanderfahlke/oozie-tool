@@ -1,8 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-IFS=$'\n\t'
-
 # usage message
 usage(){
 	echo "Usage: $0 <coordinator id>"
@@ -21,8 +18,8 @@ OOZIE_FAILED_ACTIONS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_
 # check if there are any actions to rerun
 if [ ! -z ${OOZIE_FAILED_ACTIONS} ]
 then
-    # get the coordinator name
-    OOZIE_COORDINATOR_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep "Job Name : " | awk -F ": " '{print $2}')
+	# get the coordinator name
+	OOZIE_COORDINATOR_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep "Job Name : " | awk -F ": " '{print $2}')
 
 	echo "./rerunFailedCoordinatorAction.sh ${OOZIE_COORDINATOR_ID} ${OOZIE_FAILED_ACTIONS} # ${OOZIE_COORDINATOR_NAME}"
 fi
