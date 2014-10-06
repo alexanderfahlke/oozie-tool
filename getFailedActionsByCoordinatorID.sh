@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+# usage message
+usage(){
+	echo "Usage: $0 <coordinator id>"
+	exit 1
+}
+
+# check for parameter (coordiator id)
+[[ $# -ne 1 ]] && usage
+
+source "config/config.ini"
+OOZIE_COORDINATOR_ID=$1
+
+# get all coordinator actions from the given coordinator
+OOZIE_FAILED_ACTIONS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep -vP "SUCCEEDED|WAITING|RUNNING|READY|--+" | cut -f1 -d " " | grep -oP "[0-9]+$" | sort -nu | sed 's/$/,/' | tr -d '\n' | sed 's/,$//')
+
+# check if there are any actions to rerun
+if [ ! -z ${OOZIE_FAILED_ACTIONS} ]
+then
+    # get the coordinator name
+    OOZIE_COORDINATOR_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep "Job Name : " | awk -F ": " '{print $2}')
+
+	echo "./rerunFailedCoordinatorAction.sh ${OOZIE_COORDINATOR_ID} ${OOZIE_FAILED_ACTIONS} # ${OOZIE_COORDINATOR_NAME}"
+fi
+
