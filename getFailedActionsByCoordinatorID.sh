@@ -24,7 +24,7 @@ OOZIE_FAILED_ACTIONS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_
 if [ ! -z ${OOZIE_FAILED_ACTIONS} ]
 then
 	# get the coordinator name
-	OOZIE_COORDINATOR_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep "Job Name : " | awk -F ": " '{print $2}')
+	OOZIE_COORDINATOR_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep "Job Name" | awk -F ":" '{print $2}' | sed -e 's/^ *//' -e 's/ *$//')
 
 	echo "./rerunFailedCoordinatorAction.sh ${OOZIE_COORDINATOR_ID} ${OOZIE_FAILED_ACTIONS} # ${OOZIE_COORDINATOR_NAME}"
 fi
