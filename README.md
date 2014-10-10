@@ -12,6 +12,16 @@ Tested with the following Oozie client build versions:
 - 3.1.3-incubating
 - 3.3.2-cdh4.7.0
 
+examples
+----
+Checking a bundle that has no failed, killed and timedout coordinator actions:
+
+![](https://raw.githubusercontent.com/alexanderfahlke/images/master/github.com/alexanderfahlke/oozie-tool/bundle-with-no-failed-coordinators.png)
+
+Checking a bundle with a lot of failed, killed or timedout coordinator actions:
+
+![](https://raw.githubusercontent.com/alexanderfahlke/images/master/github.com/alexanderfahlke/oozie-tool/bundle-with-failed-coordinators.png)
+
 Setup guide
 ----
 
