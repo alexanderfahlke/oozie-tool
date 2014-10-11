@@ -15,11 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if [ ! -f config/config.ini ]; then
+if [ ! -f "${OOZIE_TOOL_CONF_DIR}/config.ini" ]; then
 	echo "config.ini not found!"
 	exit 2
 fi
-source "config/config.ini"
+source "${OOZIE_TOOL_CONF_DIR}/config.ini"
 
 # get all running bundles
 OOZIE_RUNNING_BUNDLES=$(${OOZIE_BIN} jobs -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -jobtype bundle | grep RUNNING | awk '{print $1}')

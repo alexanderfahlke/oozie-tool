@@ -24,11 +24,11 @@ usage(){
 # check for parameter (coordinator id)
 [[ $# -ne 2 ]] && usage
 
-if [ ! -f config/config.ini ]; then
+if [ ! -f "${OOZIE_TOOL_CONF_DIR}/config.ini" ]; then
 	echo "config.ini not found!"
 	exit 2
 fi
-source "config/config.ini"
+source "${OOZIE_TOOL_CONF_DIR}/config.ini"
 
 OOZIE_COORDINATOR_ID=$1
 OOZIE_COORDINATOR_ACTION_ID=$2
