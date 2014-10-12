@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
+# Copyright 2014 Alexander Fahlke
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
@@ -21,3 +20,38 @@ bin=`cd "$bin"; pwd`
 
 export OOZIE_TOOL_CONF_DIR="$bin"/../conf
 export OOZIE_TOOL_LIBEXEC_DIR="$bin"/../libexec
+
+usage(){
+	echo "Usage: oozie-tool COMMAND"
+	echo "where COMMAND is one of:"
+	echo "  bundles                     check all bundles with status RUNNING"
+	echo "  bundle-by-id <bundle id>    check a bundle specified by its bundle id"
+	exit 1
+}
+
+# if no args specified, show usage
+[[ $# = 0 ]] && usage
+
+# get arguments
+COMMAND=$1
+shift
+
+# support help commands
+case $COMMAND in
+	# usage flags
+	--help|-help|-h|help)
+	usage
+	;;
+esac
+
+# figure out which tool to run
+if [ "$COMMAND" = "bundles" ] ; then
+	TOOL='getRunningBundles'
+elif [ "$COMMAND" = "bundle-by-id" ] ; then
+	TOOL='getCoordinatorsByBundleID'
+else
+  usage
+fi
+
+# run it
+exec "${OOZIE_TOOL_LIBEXEC_DIR}/$TOOL.sh" "$@"
