@@ -21,6 +21,7 @@ bin=`cd "$bin"; pwd`
 export OOZIE_TOOL_CONF_DIR="$bin"/../conf
 export OOZIE_TOOL_LIBEXEC_DIR="$bin"/../libexec
 
+# usage message
 usage(){
 	echo "Usage: oozie-tool COMMAND"
 	echo "where COMMAND is one of:"
