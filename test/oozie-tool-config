@@ -25,29 +25,44 @@ export OOZIE_TOOL_LIBEXEC_DIR="$bin"/../libexec
 echo -e "Checking for config file"
 echo "--------------------------------------------------------------------------------"
 if [ ! -f "${OOZIE_TOOL_CONF_DIR}/config.ini" ]; then
-	echo "ERROR config.ini not found!"
-	echo "aborting tests"
+	echo -e "\e[00;31mERROR\e[00m config.ini not found!"
 	exit 1
 else
-	echo "OK config.ini found"
+	echo -e "\e[00;32mOK\e[00m config.ini found";
 fi
 echo ""
-source "${OOZIE_TOOL_CONF_DIR}/config.ini.tpl"
+source "${OOZIE_TOOL_CONF_DIR}/config.ini"
 
-# debug output
-echo -e "Config debug output"
+# check the local oozie client
+echo -e "Checking local oozie client"
 echo "--------------------------------------------------------------------------------"
-echo "hostname:  ${OOZIE_HOSTNAME}"
-echo "port:      ${OOZIE_PORT}"
-echo "oozie bin: ${OOZIE_BIN}"
+OOZIE_CLIENT_TEST=$(${OOZIE_BIN} version)
+if [ $? = "1" ]; then
+	echo -e "\e[00;31mERROR\e[00m oozie client not working"
+	exit 2
+fi
+echo -e "\e[00;32mOK\e[00m oozie client working";
 echo ""
 
 # check if we can connect to the port on the given host
-echo -e "Connecting to \"${OOZIE_HOSTNAME}:${OOZIE_PORT}\""
+echo -e "Connecting to oozie server on \"${OOZIE_HOSTNAME}:${OOZIE_PORT}\""
 echo "--------------------------------------------------------------------------------"
+nc -w2 ${OOZIE_HOSTNAME} ${OOZIE_PORT} < /dev/null
+if [ $? = "1" ]; then
+	echo -e "\e[00;31mERROR\e[00m oozie server not reachable"
+	exit 3
+fi
+echo -e "\e[00;32mOK\e[00m oozie server reached";
 echo ""
 
 # check if oozie returns anything
-echo -e "Checking oozie on \"${OOZIE_HOSTNAME}:${OOZIE_PORT}\""
+echo -e "Checking oozie server status on \"${OOZIE_HOSTNAME}:${OOZIE_PORT}\""
 echo "--------------------------------------------------------------------------------"
+OOZIE_SERVER_TEST=$(${OOZIE_BIN} admin -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -status | grep -oP "NORMAL")
+if [ ${OOZIE_SERVER_TEST} != "NORMAL" ]; then
+	echo -e "\e[00;31mERROR\e[00m oozie server not in NORMAL state"
+	exit 4
+fi
+echo -e "\e[00;32mOK\e[00m oozie server answered with status NORMAL";
 echo ""
+
