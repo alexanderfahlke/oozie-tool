@@ -29,3 +29,5 @@ Setup guide
 2. copy ```config/config.ini.tpl``` to ```config/config.ini```
 3. adjust ```config/config.ini``` to match your environment (most likely the ```OOZIE_BIN```)
 4. run ```bin/oozie-tool bundles```
+
+Additionally you can run ```test/oozie-tool-config``` to check your configuration.
