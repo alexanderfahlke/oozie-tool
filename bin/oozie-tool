@@ -51,7 +51,7 @@ if [ "$COMMAND" = "bundles" ] ; then
 elif [ "$COMMAND" = "bundle-by-id" ] ; then
 	TOOL='getCoordinatorsByBundleID'
 else
-  usage
+	usage
 fi
 
 # run it
