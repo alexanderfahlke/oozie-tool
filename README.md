@@ -3,9 +3,9 @@ oozie-tool
 
 A little toolbox for apache oozie.
 
-This tool will return all FAILED, KILLED and TIMEDOUT actions for all bundles that have the status RUNNING if you run ```getRunningBundles.sh```.
+This tool will return all FAILED, KILLED and TIMEDOUT actions for all bundles that have the status RUNNING if you run ```bin/oozie-tool bundles```.
 
-It is also possible to only check a specific bundle by the bundle ID with the ```getCoordinatorsByBundleID.sh``` script.
+It is also possible to only check a specific bundle by the bundle ID with the ```bin/oozie-tool bundle-by-id``` script.
 
 Tested with the following Oozie client build versions:
 
@@ -28,4 +28,4 @@ Setup guide
 1. Clone this repo: ```git clone https://github.com/alexanderfahlke/oozie-tool.git```
 2. copy ```config/config.ini.tpl``` to ```config/config.ini```
 3. adjust ```config/config.ini``` to match your environment (most likely the ```OOZIE_BIN```)
-4. run ```getRunningBundles.sh```
+4. run ```bin/oozie-tool bundles```
