@@ -43,7 +43,7 @@ OOZIE_COORDINATOR_IDS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE
 failed="false";
 for cid in ${OOZIE_COORDINATOR_IDS[@]}
 do
-	./getFailedActionsByCoordinatorID.sh ${cid}
+	${OOZIE_TOOL_LIBEXEC_DIR}/getFailedActionsByCoordinatorID.sh ${cid}
 	if [ $? == 255 ];then failed="true"; fi
 done
 

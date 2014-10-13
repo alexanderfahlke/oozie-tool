@@ -40,7 +40,7 @@ then
 	# get the coordinator name
 	OOZIE_COORDINATOR_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep "Job Name" | awk '{print $4}')
 
-	echo -e "\e[00;31m./rerunFailedCoordinatorAction.sh ${OOZIE_COORDINATOR_ID} ${OOZIE_FAILED_ACTIONS} # ${OOZIE_COORDINATOR_NAME}\e[00m"
+	echo -e "\e[00;31m${OOZIE_TOOL_LIBEXEC_DIR}/rerunFailedCoordinatorAction.sh ${OOZIE_COORDINATOR_ID} ${OOZIE_FAILED_ACTIONS} # ${OOZIE_COORDINATOR_NAME}\e[00m"
 	exit 255;
 fi
 

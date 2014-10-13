@@ -26,5 +26,5 @@ OOZIE_RUNNING_BUNDLES=$(${OOZIE_BIN} jobs -oozie http://${OOZIE_HOSTNAME}:${OOZI
 # run script for getting the coordinators for each bundle
 for bid in ${OOZIE_RUNNING_BUNDLES[@]}
 do
-	./getCoordinatorsByBundleID.sh ${bid}
+	${OOZIE_TOOL_LIBEXEC_DIR}/getCoordinatorsByBundleID.sh ${bid}
 done
