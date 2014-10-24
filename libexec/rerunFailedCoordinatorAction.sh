@@ -14,6 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+bin=`which $0`
+bin=`dirname ${bin}`
+bin=`cd "$bin"; pwd`
+
+export OOZIE_TOOL_CONF_DIR="$bin"/../conf
+
 # usage message
 usage(){
 	echo "Usage: $0 <coordinator id> <action>"
