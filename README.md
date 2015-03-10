@@ -26,8 +26,8 @@ Setup guide
 ----
 
 1. Clone this repo: ```git clone https://github.com/alexanderfahlke/oozie-tool.git```
-2. copy ```config/config.ini.tpl``` to ```config/config.ini```
-3. adjust ```config/config.ini``` to match your environment (most likely the ```OOZIE_BIN```)
+2. copy ```conf/config.ini.tpl``` to ```conf/config.ini```
+3. adjust ```conf/config.ini``` to match your environment (most likely the ```OOZIE_BIN```)
 4. run ```bin/oozie-tool bundles```
 
 Additionally you can run ```test/oozie-tool-config``` to check your configuration.
