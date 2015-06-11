@@ -32,7 +32,7 @@ fi
 source "${OOZIE_TOOL_CONF_DIR}/config.ini"
 
 # get all coordinator actions from the given coordinator
-OOZIE_FAILED_ACTIONS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_COORDINATOR_ID} | grep -vP "SUCCEEDED|WAITING|RUNNING|READY|--+" | cut -f1 -d " " | grep -oP "[0-9]+$" | sort -nu | sed 's/$/,/' | tr -d '\n' | sed 's/,$//')
+OOZIE_FAILED_ACTIONS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -len 10000 -info ${OOZIE_COORDINATOR_ID} | grep -vP "SUCCEEDED|WAITING|RUNNING|READY|--+" | cut -f1 -d " " | grep -oP "[0-9]+$" | sort -nu | sed 's/$/,/' | tr -d '\n' | sed 's/,$//')
 
 # check if there are any actions to rerun
 if [ ! -z ${OOZIE_FAILED_ACTIONS} ]
