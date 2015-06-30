@@ -21,7 +21,7 @@ fi
 source "${OOZIE_TOOL_CONF_DIR}/config.ini"
 
 # get all running bundles
-OOZIE_RUNNING_BUNDLES=$(${OOZIE_BIN} jobs -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -jobtype bundle -len 10000 | grep RUNNING | awk '{print $1}')
+OOZIE_RUNNING_BUNDLES=$(${OOZIE_BIN} jobs -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -jobtype bundle -len 10000 -filter status=RUNNING | awk '{print $1}')
 
 # run script for getting the coordinators for each bundle
 for bid in ${OOZIE_RUNNING_BUNDLES[@]}
