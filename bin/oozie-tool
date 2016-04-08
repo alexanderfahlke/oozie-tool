@@ -25,8 +25,8 @@ export OOZIE_TOOL_LIBEXEC_DIR="$bin"/../libexec
 usage(){
 	echo "Usage: oozie-tool COMMAND"
 	echo "where COMMAND is one of:"
-	echo "  bundles [--bundle-filter=str1,str2,...,strN]    check all bundles with status RUNNING"
-	echo "  bundle-by-id <bundle id>                        check a bundle specified by its bundle id"
+	echo "  bundles [--bundle-filter <filterstring>]    check all bundles with status RUNNING"
+	echo "  bundle-by-id <bundle id>                    check a bundle specified by its bundle id"
 	exit 1
 }
 
