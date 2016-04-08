@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+BUNDLE_FILTER=$1
+
 if [ ! -f "${OOZIE_TOOL_CONF_DIR}/config.ini" ]; then
 	echo "config.ini not found!"
 	exit 2
@@ -26,5 +28,5 @@ OOZIE_RUNNING_BUNDLES=$(${OOZIE_BIN} jobs -oozie http://${OOZIE_HOSTNAME}:${OOZI
 # run script for getting the coordinators for each bundle
 for bid in ${OOZIE_RUNNING_BUNDLES[@]}
 do
-	${OOZIE_TOOL_LIBEXEC_DIR}/getCoordinatorsByBundleID.sh ${bid}
+	${OOZIE_TOOL_LIBEXEC_DIR}/getCoordinatorsByBundleID.sh ${bid} ${BUNDLE_FILTER}
 done

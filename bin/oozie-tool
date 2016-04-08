@@ -25,8 +25,8 @@ export OOZIE_TOOL_LIBEXEC_DIR="$bin"/../libexec
 usage(){
 	echo "Usage: oozie-tool COMMAND"
 	echo "where COMMAND is one of:"
-	echo "  bundles                     check all bundles with status RUNNING"
-	echo "  bundle-by-id <bundle id>    check a bundle specified by its bundle id"
+	echo "  bundles [--bundle-filter <filterstring>]    check all bundles with status RUNNING"
+	echo "  bundle-by-id <bundle id>                    check a bundle specified by its bundle id"
 	exit 1
 }
 
@@ -39,20 +39,15 @@ shift
 
 # support help commands
 case $COMMAND in
+	bundles)
+		shift
+		exec "${OOZIE_TOOL_LIBEXEC_DIR}/getRunningBundles.sh" "$@"
+		;;
+	bundle-by-id)
+		exec "${OOZIE_TOOL_LIBEXEC_DIR}/getCoordinatorsByBundleID.sh" "$@"
+		;;
 	# usage flags
 	--help|-help|-h|help)
-	usage
-	;;
+		usage
+		;;
 esac
-
-# figure out which tool to run
-if [ "$COMMAND" = "bundles" ] ; then
-	TOOL='getRunningBundles'
-elif [ "$COMMAND" = "bundle-by-id" ] ; then
-	TOOL='getCoordinatorsByBundleID'
-else
-	usage
-fi
-
-# run it
-exec "${OOZIE_TOOL_LIBEXEC_DIR}/$TOOL.sh" "$@"
