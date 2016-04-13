@@ -34,8 +34,10 @@ source "${OOZIE_TOOL_CONF_DIR}/config.ini"
 
 # print currently checked bundle name
 OOZIE_BUNDLE_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_BUNDLE_ID} | grep "Job Name" | awk '{print $4}')
-if [[ "${OOZIE_BUNDLE_NAME}" == *"${BUNDLE_FILTER}"* ]]; then
-	exit 0
+if [[ -n "$BUNDLE_FILTER" ]]; then
+    if [[ "${OOZIE_BUNDLE_NAME}" == *"${BUNDLE_FILTER}"* ]]; then
+	    exit 0
+    fi
 fi
 echo -e "\e[00;34mChecking: ${OOZIE_BUNDLE_NAME} (${OOZIE_BUNDLE_ID})\e[00m"
 echo "--------------------------------------------------------------------------------"
