@@ -23,7 +23,7 @@ usage(){
 # check for parameter (bundle id)
 [[ $# -lt 1 ]] && usage
 
-OOZIE_BUNDLE_ID=$1
+OOZIE_BUNDLE_ID_LIST=$1
 BUNDLE_FILTER=$2
 
 if [ ! -f "${OOZIE_TOOL_CONF_DIR}/config.ini" ]; then
@@ -32,8 +32,11 @@ if [ ! -f "${OOZIE_TOOL_CONF_DIR}/config.ini" ]; then
 fi
 source "${OOZIE_TOOL_CONF_DIR}/config.ini"
 
+IFS=', ' read -r -a array <<< "$OOZIE_BUNDLE_ID_LIST"
+for OOZIE_BUNDLE_ID in "${array[@]}"
+do
 # print currently checked bundle name
-OOZIE_BUNDLE_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_BUNDLE_ID} | grep "Job Name" | awk '{print $4}')
+OOZIE_BUNDLE_NAME=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info "$OOZIE_BUNDLE_ID" | grep "Job Name" | awk '{print $4}')
 if [[ -n "$BUNDLE_FILTER" ]]; then
     if [[ "${OOZIE_BUNDLE_NAME}" == *"${BUNDLE_FILTER}"* ]]; then
 	    exit 0
@@ -43,7 +46,7 @@ echo -e "\e[00;34mChecking: ${OOZIE_BUNDLE_NAME} (${OOZIE_BUNDLE_ID})\e[00m"
 echo "--------------------------------------------------------------------------------"
 
 # get all coordinators from the given bundle
-OOZIE_COORDINATOR_IDS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info ${OOZIE_BUNDLE_ID} | grep -oP "^[0-9]+.*?-C")
+OOZIE_COORDINATOR_IDS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info "$OOZIE_BUNDLE_ID" | grep -oP "^[0-9]+.*?-C")
 
 # run script for getting the failed actions
 failed="false";
@@ -59,3 +62,4 @@ fi
 
 
 echo ""
+done
