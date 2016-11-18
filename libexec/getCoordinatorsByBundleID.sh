@@ -46,7 +46,7 @@ echo -e "\e[00;34mChecking: ${OOZIE_BUNDLE_NAME} (${OOZIE_BUNDLE_ID})\e[00m"
 echo "--------------------------------------------------------------------------------"
 
 # get all coordinators from the given bundle
-OOZIE_COORDINATOR_IDS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info "$OOZIE_BUNDLE_ID" | grep 'RUNNING' | grep -oP "^[0-9]+.*?-C")
+OOZIE_COORDINATOR_IDS=$(${OOZIE_BIN} job -oozie http://${OOZIE_HOSTNAME}:${OOZIE_PORT}/oozie -info "$OOZIE_BUNDLE_ID" | grep -v 'SUSPENDED' | grep -oP "^[0-9]+.*?-C")
 
 # run script for getting the failed actions
 failed="false";
